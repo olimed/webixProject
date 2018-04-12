@@ -13,6 +13,12 @@ export default class ContactsList extends JetView {
 			type:{
 				height: 60
 			},
+			on:{ 
+				onAfterSelect:(id) =>{
+					this.setParam("id", id, true);
+					this.show(`../contacts?id=${id}`);
+				}
+			}
 		};
 
 		return contactsList;
@@ -22,7 +28,14 @@ export default class ContactsList extends JetView {
 		this.$$("contactslist").sync(data);
 	}
 
-	ready(){
-		this.$$("contactslist").select(this.$$("contactslist").getFirstId());
+	urlChange(){
+		data.waitData.then(()=> {
+			let list = this.$$("contactslist");
+			let id = this.getParam("id");
+			if (id && data.exists(id))
+				list.select(id);
+			else
+				list.select(list.getFirstId());
+		});
 	}
 }

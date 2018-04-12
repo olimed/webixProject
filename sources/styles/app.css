@@ -113,3 +113,65 @@
 	/*text-align: center;*/
 	padding-left: 200px;
 }
+
+/*contactsForm template*/
+#user-header{
+	display: flex;
+
+}
+
+#user-action {
+	align-self: center;
+    /* align-content: center; */
+    padding-left: 280px;
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+}
+
+#profile {
+	display: flex;
+    justify-content: flex-start;
+}
+
+#user-photo {
+	padding-left: 30px;
+	width: 200px;
+    height: 150px;
+}
+
+#user-status {
+	padding-left: 80px;
+}
+
+#user-info{
+	width: 300px;
+}
+
+#user-info li{
+	list-style-type: none;
+}
+
+#info{
+	display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+    height: 150px;
+}
+
+#info li{
+	height: 35px;
+}
+
+li > span{	
+    padding-right: 5px;
+}
+
+button > span{
+	display: inline!important;
+}
+
+#user-action button{
+	margin-right: 10px;
+}

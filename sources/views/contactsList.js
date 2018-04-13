@@ -20,7 +20,16 @@ export default class ContactsList extends JetView {
 			}
 		};
 
-		return contactsList;
+		var addButton = {
+			view: "button",
+			label: "Add Contact",
+			type: "iconButton", 
+			icon: "plus",
+			css: "style_button"
+			
+		}
+
+		return {rows: [contactsList, {}, addButton]};
 	}
 
 	init() {

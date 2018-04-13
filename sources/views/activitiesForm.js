@@ -62,8 +62,6 @@ export default class ToolbarView extends JetView {
 
 		let buttonLabel = (obj) => obj;
 
-		//let winHead = 
-
 		var activitiesMess = {
 			view: "window",
 			id: "activitiesMess",
@@ -83,22 +81,12 @@ export default class ToolbarView extends JetView {
 		return activitiesMess;
 	}
 
-	init() {
-
-	}
-
 	showWindow(data) {
 		this.getRoot().show();
-
-		//change button and head
-
-
 		this.$$("editForm").setValues(data);
 		this.$$("headMess").setValues(data);
 		let action = data.id ? "Save" : "Add";
-
 		this.$$("actionButton").setValue(action);
-
 	}
 
 }

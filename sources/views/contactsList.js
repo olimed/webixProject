@@ -1,5 +1,6 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
+import contactsForm from "views/contactsForm";
 
 export default class ContactsList extends JetView {
 	config() {
@@ -25,9 +26,14 @@ export default class ContactsList extends JetView {
 			label: "Add Contact",
 			type: "iconButton", 
 			icon: "plus",
-			css: "style_button"
+			css: "style_button",
+			click: () => {
+				//this.app.callEvent("addContact")
+				//this.show("contactsForm");
+				//this.$scope.app.show("/contactsForm/");
+			}
 			
-		}
+		};
 
 		return {rows: [contactsList, {}, addButton]};
 	}

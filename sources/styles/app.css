@@ -175,3 +175,8 @@ button > span{
 #user-action button{
 	margin-right: 10px;
 }
+
+/*button */
+.style_button.webix_el_button button{
+	text-align: center;
+}

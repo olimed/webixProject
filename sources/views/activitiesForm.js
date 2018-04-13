@@ -35,18 +35,14 @@ export default class ToolbarView extends JetView {
 										} else {
 											activity.add(values);
 										}
-										this.$$("editForm").hide();
-										this.$$("editForm").clear();
-										this.$$("editForm").clearValidation();
+										this.hideForm();
 									}
 								}
 							},
 							{
 								view: "button", label: "Cancel",
 								click: () => {
-									this.$$("activitiesMess").hide();
-									this.$$("editForm").clear();
-									this.$$("editForm").clearValidation();
+									this.hideForm();
 								},
 							}
 						]
@@ -61,8 +57,6 @@ export default class ToolbarView extends JetView {
 		};
 
 		let buttonLabel = (obj) => obj;
-
-		//let winHead = 
 
 		var activitiesMess = {
 			view: "window",
@@ -83,16 +77,8 @@ export default class ToolbarView extends JetView {
 		return activitiesMess;
 	}
 
-	init() {
-
-	}
-
 	showWindow(data) {
 		this.getRoot().show();
-
-		//change button and head
-
-
 		this.$$("editForm").setValues(data);
 		this.$$("headMess").setValues(data);
 		let action = data.id ? "Save" : "Add";
@@ -101,4 +87,9 @@ export default class ToolbarView extends JetView {
 
 	}
 
+	hideForm(){
+		this.$$("editForm").hide();
+		this.$$("editForm").clear();
+		this.$$("editForm").clearValidation();
+	}
 }

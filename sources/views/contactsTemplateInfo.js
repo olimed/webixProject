@@ -57,8 +57,6 @@ export default class ContactsForm extends JetView {
 				item = webix.copy(data.getItem(data.getFirstId()));
 			if (statuses.exists(item.StatusID))
 				item.StatusID = statuses.getItem(item.StatusID).value;
-			else
-				item.StatusID = "";
 			template.setValues(item);
 		}
 		);

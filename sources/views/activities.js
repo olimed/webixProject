@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import activitiesMess from "views/activitiesToolbar";
+import activitiesMess from "views/activitiesForm";
 import activitiesDatatable from "views/activitiesDatatable";
 
 export default class DataView extends JetView {
@@ -10,7 +10,6 @@ export default class DataView extends JetView {
 				{
 					view: "segmented",
 					id: "activitiesToolbar",
-					//autowidth: true,
 					gravity: 6,
 					options: [
 						{ id: "all", value: "All" },
@@ -33,7 +32,6 @@ export default class DataView extends JetView {
 							view: "button", type: "iconButton", icon: "plus", label: "Add activity", autowidth: true,
 							click: () => {
 								this.app.callEvent("dataEdit", [{}]);
-								this.winEdit.showWindow();
 							}
 						}]
 				}
@@ -45,5 +43,9 @@ export default class DataView extends JetView {
 
 	init() {
 		this.winEdit = this.ui(activitiesMess);
+
+		this.on(this.app, "dataEdit", (data) => {
+			this.winEdit.showWindow(data);
+		});
 	}
 }

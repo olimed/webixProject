@@ -10,12 +10,11 @@ export default class ContactsList extends JetView {
 			width: 300,
 			scrollX: false,
 			select: true,
-			type:{
+			type: {
 				height: 60
 			},
-			on:{ 
-				onAfterSelect:(id) =>{
-					this.setParam("id", id, true);
+			on: {
+				onAfterSelect: (id) => {
 					this.show(`../contacts?id=${id}`);
 				}
 			}
@@ -28,8 +27,8 @@ export default class ContactsList extends JetView {
 		this.$$("contactslist").sync(data);
 	}
 
-	urlChange(){
-		data.waitData.then(()=> {
+	urlChange() {
+		data.waitData.then(() => {
 			let list = this.$$("contactslist");
 			let id = this.getParam("id");
 			if (id && data.exists(id))

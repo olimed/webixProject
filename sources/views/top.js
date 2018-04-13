@@ -11,13 +11,7 @@ export default class TopView extends JetView {
 				{ value: "Contacts", id: "contacts", icon: "users" },
 				{ value: "Activities", id: "activities", icon: "calendar" },
 				{ value: "Settings", id: "settings", icon: "cog" }
-			],
-			/*on: {
-				onAfterSelect: function (id) {
-					this.$$("header").
-					$$(id).show();
-				}
-			}*/
+			]
 		};
 
 		var ui = {
@@ -47,6 +41,6 @@ export default class TopView extends JetView {
 	}
 	init() {
 		this.use(plugins.Menu, "top:menu");
-		this.$$("header").bind($$("top:menu"));
+		this.$$("header").bind(this.$$("top:menu"));
 	}
 }

@@ -1,13 +1,14 @@
-import {JetView} from "webix-jet";
+import { JetView } from "webix-jet";
 import { data } from "models/contacts";
+import { statuses } from "models/statuses";
 
-export default class ContactsForm extends JetView{
-	config(){
+export default class ContactsForm extends JetView {
+	config() {
 
 		var contactsTemplate = {
 			view: "template",
 			id: "contactsTemplate",
-			template: (obj) => {				
+			template: (obj) => {
 				return `
 					<div id='user-header'>
 						<div id='title'>
@@ -35,23 +36,29 @@ export default class ContactsForm extends JetView{
 						</div>
 					</div>
 					<div id='user-status'>${obj.StatusID}</div>
-				`
+				`;
 			}
-		};	  
+		};
 
 		return contactsTemplate;
 	}
-	
-	urlChange(){
-		data.waitData.then(() => {
+
+	urlChange() {
+		webix.promise.all([
+			data.waitData,
+			statuses.waitData
+		]).then(() => {
 			let template = this.$$("contactsTemplate");
+			let id = this.getParam("id");
 			let item;
-			const id = this.getParam("id");
 			if (id && data.exists(id))
-				item = data.getItem(id);
+				item = webix.copy(data.getItem(id));
 			else
-				item = data.getItem(data.getFirstId());
+				item = webix.copy(data.getItem(data.getFirstId()));
+			if (statuses.exists(item.StatusID))
+				item.StatusID = statuses.getItem(item.StatusID).value;
 			template.setValues(item);
-		});
+		}
+		);
 	}
 }

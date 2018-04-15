@@ -1,5 +1,6 @@
 import { JetView } from "webix-jet";
-import activitiesMess from "views/activitiesForm";
+import { data } from "models/contacts";
+import contactsTemplate from "views/contactsTemplateInfo";
 import activitiesDatatable from "views/activitiesDatatable";
 
 export default class DataView extends JetView {
@@ -7,16 +8,19 @@ export default class DataView extends JetView {
 
         var contactsForm = {
             view: "form",
-            id: "contactsForm",
+			id: "contactsForm",
+			elementsConfig:{
+				css: "",
+			},
             elements: [{
                 rows: [
-                    { template: "Edit (*add) contacts"},
+                    { view: "label", label: "Edit (*add) contacts"},
                     { cols: [
                         { rows: [
-                            { view:"text", label:"Fist name", name: "FirstName" },
+                            { view:"text", label:"Fist name", name: "FirstName",  },
                             { view:"text", label:"Last name", name: "LastName" },
                             { view: "datepicker", align: "right", label:"Joining date", name: "StartDate" },
-                            { view:"text", label:"Status",  name: "StatusID" },
+                            { view:"richselect", label:"Status",  name: "StatusID" },
                             { view:"text", label:"Job",  name: "Job" },
                             { view:"text", label:"Company",  name: "Company" },
                             { view:"text", label:"Website",  name: "Website" },
@@ -45,12 +49,34 @@ export default class DataView extends JetView {
                                 this.show("contactsTemplateInfo");
                             }
                         },
-                        { view: "button", label: "Save"}
+						{ view: "button", label: "Save", 
+							click: () => {
+								let values = this.$$("contactsForm").getValues();
+								if (this.$$("contactsForm").validate()) {
+									if (values.id) {
+										data.updateItem(values.id, values);
+									} else {
+										data.add(values);
+									}
+									this.show("contactsTemplateInfo");
+								}
+							}
+						}
                     ]}
                 ]}
             ],
         };
 
         return contactsForm;
-    }
+	}	
+
+	init(){
+		this.on(this.app, "contactEdit", (data) => {
+			webix.alert("hi");
+		});
+	}
+	/*showForm(data){
+		this.getRoot().show();
+		this.$$("contactsForm").setValues(data);
+	}*/
 }

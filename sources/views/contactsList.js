@@ -1,6 +1,7 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
 import contactsForm from "views/contactsForm";
+import { statuses } from "models/statuses";
 
 export default class ContactsList extends JetView {
 	config() {
@@ -16,7 +17,8 @@ export default class ContactsList extends JetView {
 			},
 			on: {
 				onAfterSelect: (id) => {
-					this.show(`../contacts?id=${id}`);
+					//this.setParam("id", id, true);
+					this.show(`?id=${id}`); //../contacts
 				}
 			}
 		};
@@ -29,7 +31,8 @@ export default class ContactsList extends JetView {
 			css: "style_button",
 			click: () => {
 				//this.app.callEvent("addContact")
-				//this.show("contactsForm");
+				//let id = this.getParam("id");
+				this.show("contactsForm"); //top/contacts?id=1
 				//this.$scope.app.show("/contactsForm/");
 			}
 			
@@ -40,6 +43,7 @@ export default class ContactsList extends JetView {
 
 	init() {
 		this.$$("contactslist").sync(data);
+		//this.use(plugins.UrlParam, ["id"]);
 	}
 
 	urlChange() {
@@ -51,5 +55,7 @@ export default class ContactsList extends JetView {
 			else
 				list.select(list.getFirstId());
 		});
+
+		
 	}
 }

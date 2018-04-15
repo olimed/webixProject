@@ -1,8 +1,9 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
 import { statuses } from "models/statuses";
+import contactsForm from "views/contactsForm";
 
-export default class ContactsForm extends JetView {
+export default class ContactsTemplate extends JetView {
 	config() {
 
 		var contactsTemplate = {
@@ -15,8 +16,8 @@ export default class ContactsForm extends JetView {
 							<h1 style='padding-left:18px; min-height: 40px;'>${obj.FirstName} ${obj.LastName}</h1>
 						</div>
 						<div id='user-action'>
-							<button class='webixbutton' ><span class='webix_icon fa-trash'></span>Delete</button>
-							<button class='webixbutton'><span class='webix_icon fa-edit'></span>Edit</button>
+							<button class='webixbutton i-trash' ><span class='webix_icon fa-trash'></span>Delete</button>
+							<button class='webixbutton i-edit'><span class='webix_icon fa-edit'></span>Edit</button>
 						</div>
 					</div>
 					<div id='profile'>
@@ -37,20 +38,50 @@ export default class ContactsForm extends JetView {
 					</div>
 					<div id='user-status'>${obj.StatusID}</div>
 				`;
+			},
+			onClick: {
+				"i-trash": () => {
+					let id = this.getParam("id", true);
+					webix.confirm({
+						title: "Information",
+						text: "Delete?",
+						callback: function (result) {
+							
+							if (result == true) {
+								data.remove(id);
+							}
+						}
+					});
+					return false;
+				},
+				"i-edit": () => {
+					let id = this.getParam("id", true);
+					let values = data.getItem(id);
+					this.show("contactsForm");
+					//this.app.callEvent("contactEdit", [values]);
+				}
+
 			}
 		};
 
 		return contactsTemplate;
 	}
 
-	urlChange(view,url) {
+	init(){
+		
+		
+	}
+
+	urlChange(view, url) {
+		
 		webix.promise.all([
 			data.waitData,
 			statuses.waitData
 		]).then(() => {
 			let template = this.$$("contactsTemplate");
-			let id = this.getParam("id");
+			let id = this.getParam("id", true);
 			let item;
+			
 			if (id && data.exists(id))
 				item = webix.copy(data.getItem(id));
 			else
@@ -60,5 +91,6 @@ export default class ContactsForm extends JetView {
 			template.setValues(item);
 		}
 		);
+		
 	}
 }

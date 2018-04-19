@@ -34,18 +34,14 @@ export default class ToolbarView extends JetView {
 										} else {
 											activity.add(values);
 										}
-										this.$$("editForm").hide();
-										this.$$("editForm").clear();
-										this.$$("editForm").clearValidation();
+										this.hideForm();
 									}
 								}
 							},
 							{
 								view: "button", label: "Cancel",
 								click: () => {
-									this.$$("activitiesMess").hide();
-									this.$$("editForm").clear();
-									this.$$("editForm").clearValidation();
+									this.hideForm();
 								},
 							}
 						]
@@ -90,4 +86,9 @@ export default class ToolbarView extends JetView {
 		this.$$("actionButton").setValue(action);
 	}
 
+	hideForm(){
+		this.$$("editForm").hide();
+		this.$$("editForm").clear();
+		this.$$("editForm").clearValidation();
+	}
 }

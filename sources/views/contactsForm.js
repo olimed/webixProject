@@ -132,7 +132,6 @@ export default class ContactsForm extends JetView {
 		return contactsForm;
 	}
 
-<<<<<<< HEAD
 	init() {
 
 		let id = this.getParam("id");
@@ -146,25 +145,6 @@ export default class ContactsForm extends JetView {
 		} else {
 			this.$$("saveButton").setValue("Add");
 			this.$$("headerForm").setValue("<h2 style='margin-top: 0px;'>Add contact</h2>");
-=======
-	urlChange() {
-		webix.promise.all([
-			data.waitData,
-			statuses.waitData
-		]).then(() => {
-			let template = this.$$("contactsTemplate");
-			let id = this.getParam("id");
-			let item;
-			if (id && data.exists(id))
-				item = webix.copy(data.getItem(id));
-			else
-				item = webix.copy(data.getItem(data.getFirstId()));
-			if (statuses.exists(item.StatusID))
-				item.StatusID = statuses.getItem(item.StatusID).value;
-			else
-				item.StatusID = "";
-			template.setValues(item);
->>>>>>> master
 		}
 	}
 }

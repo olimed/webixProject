@@ -9,7 +9,6 @@ export default class ToolbarView extends JetView {
 		var editForm = {
 			view: "form",
 			id: "editForm",
-
 			elements: [{
 				rows: [
 					{ view: "textarea", name: "Details", height: 200, label: "Details", labelAlign: "right" },
@@ -27,8 +26,8 @@ export default class ToolbarView extends JetView {
 							{},
 							{
 								view: "button", id: "actionButton", label: buttonLabel, type: "form",
-								click: () => {
-									let values = this.$$("editForm").getValues();
+								click: () => {									
+									let values = this.$$("editForm").getValues(); 
 									if (this.$$("editForm").validate()) {
 										if (values.id) {
 											activity.updateItem(values.id, values);
@@ -83,6 +82,8 @@ export default class ToolbarView extends JetView {
 
 	showWindow(data) {
 		this.getRoot().show();
+		if (this.getParentView()._index == 3)
+			this.$$("editForm").queryView({label:"Contact"}).disable();
 		this.$$("editForm").setValues(data);
 		this.$$("headMess").setValues(data);
 		let action = data.id ? "Save" : "Add";

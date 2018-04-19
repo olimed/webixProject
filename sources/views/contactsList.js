@@ -1,7 +1,5 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
-import contactsForm from "views/contactsForm";
-import { statuses } from "models/statuses";
 
 export default class ContactsList extends JetView {
 	config() {
@@ -17,8 +15,7 @@ export default class ContactsList extends JetView {
 			},
 			on: {
 				onAfterSelect: (id) => {
-					//this.setParam("id", id, true);
-					this.show(`?id=${id}`); //../contacts
+					this.show(`?id=${id}`); 
 				}
 			}
 		};
@@ -30,20 +27,26 @@ export default class ContactsList extends JetView {
 			icon: "plus",
 			css: "style_button",
 			click: () => {
-				//this.app.callEvent("addContact")
-				//let id = this.getParam("id");
-				this.show("contactsForm"); //top/contacts?id=1
-				//this.$scope.app.show("/contactsForm/");
+				this.show("contactsForm");				
 			}
 			
 		};
 
-		return {rows: [contactsList, {}, addButton]};
+		return {rows: [contactsList,  addButton]};
 	}
 
 	init() {
-		this.$$("contactslist").sync(data);
-		//this.use(plugins.UrlParam, ["id"]);
+		this.$$("contactslist").sync(data);	
+				
+		this.on (this.app, "delContact", () => {
+			this.$$("contactslist").select(this.$$("contactslist").getFirstId());
+		});
+
+		this.on (this.app, "addContact", () => {
+			data.waitData.then(() => {
+				this.$$("contactslist").select( this.$$("contactslist").getLastId());
+			});			
+		});
 	}
 
 	urlChange() {
@@ -54,8 +57,6 @@ export default class ContactsList extends JetView {
 				list.select(id);
 			else
 				list.select(list.getFirstId());
-		});
-
-		
+		});		
 	}
 }

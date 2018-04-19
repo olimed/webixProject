@@ -1,7 +1,7 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
 import { statuses } from "models/statuses";
-import contactsForm from "views/contactsForm";
+import contactsMultiview from "views/contactsMultiview";
 
 export default class ContactsTemplate extends JetView {
 	config() {
@@ -22,7 +22,7 @@ export default class ContactsTemplate extends JetView {
 					</div>
 					<div id='profile'>
 						<div id='user-photo'>
-							<img src='${obj.Photo}' alt='user-photo' style='width: 300px; height: 300px; border: black;'>
+							<img src='${obj.Photo}' alt='user-photo' style='width: 200px; height: 300px; border: black;' />
 						</div>
 						<div id='user-info'>
 							<ul id='info'>
@@ -31,7 +31,7 @@ export default class ContactsTemplate extends JetView {
 								<li><span class='webix_icon fa-tag'></span>${obj.Job}</li>
 								<li><span class='webix_icon fa-briefcase'></span>${obj.Company}</li>
 						  	
-								<li><span class='webix_icon fa-calendar'></span>${obj.Birthday}</li>
+								<li><span class='webix_icon fa-calendar'></span>${webix.i18n.dateFormatStr(obj.Birthday)}</li>
 								<li><span class='webix_icon fa-map-marker'></span>${obj.Address}</li>
 						  	</ul>
 						</div>
@@ -42,12 +42,14 @@ export default class ContactsTemplate extends JetView {
 			onClick: {
 				"i-trash": () => {
 					let id = this.getParam("id", true);
+					let app = this.app;
 					webix.confirm({
 						title: "Information",
 						text: "Delete?",
 						callback: function (result) {
 							
 							if (result == true) {
+								app.callEvent("delContact", []);
 								data.remove(id);
 							}
 						}
@@ -56,23 +58,15 @@ export default class ContactsTemplate extends JetView {
 				},
 				"i-edit": () => {
 					let id = this.getParam("id", true);
-					let values = data.getItem(id);
-					this.show("contactsForm");
-					//this.app.callEvent("contactEdit", [values]);
+					this.show(`contactsForm?id=${id}`);					
 				}
-
 			}
-		};
+		};		
 
-		return contactsTemplate;
+		return  {rows: [contactsTemplate, contactsMultiview]};
 	}
 
-	init(){
-		
-		
-	}
-
-	urlChange(view, url) {
+	urlChange() {
 		
 		webix.promise.all([
 			data.waitData,
@@ -88,9 +82,10 @@ export default class ContactsTemplate extends JetView {
 				item = webix.copy(data.getItem(data.getFirstId()));
 			if (statuses.exists(item.StatusID))
 				item.StatusID = statuses.getItem(item.StatusID).value;
+			else
+				item.StatusID = "";
 			template.setValues(item);
 		}
-		);
-		
+		);	
 	}
 }

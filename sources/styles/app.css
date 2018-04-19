@@ -181,6 +181,13 @@ button > span{
 	text-align: center;
 }
 
+/*contactsForm*/
+.inputsForm {
+	width: 80px;
+	margin: 10px 0px;
+	
+}
+
 /*.webix_view webix_control webix_el_text{
 	margin: 5px 0 !important;
 }*/

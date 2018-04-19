@@ -15,12 +15,12 @@ export default class TopView extends JetView {
 		};
 
 		var ui = {
-			type: "line", rows: [
+			type: "line",  rows: [
 				{ type: "header", id: "header", template: "#value#", css: "header" },
 				{
 					cols: [
 						{
-							type: "clean", css: "app-left-panel",
+							type: "clean", css: "app-left-panel", 
 							padding: 10, margin: 20, borderless: true, rows: [menu]
 						},
 						{

@@ -29,6 +29,9 @@ export default class ContactsList extends JetView {
 			on: {
 				onAfterSelect: (id) => {
 					this.show(`?id=${id}`);
+				},
+				"data->onIdChange": () => {
+					this.app.show(`top/contacts?id=${data.getLastId()}/contactsTemplateInfo`);
 				}
 			}
 		};

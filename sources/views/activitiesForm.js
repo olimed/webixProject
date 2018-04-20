@@ -8,7 +8,6 @@ export default class ToolbarView extends JetView {
 
 		var editForm = {
 			view: "form",
-			id: "editForm",
 			elements: [{
 				rows: [
 					{ view: "textarea", name: "Details", height: 200, label: "Details", labelAlign: "right" },
@@ -25,10 +24,11 @@ export default class ToolbarView extends JetView {
 						cols: [
 							{},
 							{
-								view: "button", id: "actionButton", label: buttonLabel, type: "form",
-								click: () => {									
-									let values = this.$$("editForm").getValues(); 
-									if (this.$$("editForm").validate()) {
+								view: "button", label: buttonLabel, type: "form",
+								click: () => {	
+									let win = this.getRoot();								
+									let values = win.getBody().getValues(); 
+									if (win.getBody().validate()) {
 										if (values.id) {
 											activity.updateItem(values.id, values);
 										} else {
@@ -59,13 +59,11 @@ export default class ToolbarView extends JetView {
 
 		var activitiesMess = {
 			view: "window",
-			id: "activitiesMess",
 			height: 500,
 			width: 700,
 			position: "center",
 			move: true,
 			head: {
-				id: "headMess",
 				template: (obj) => {
 					return `${obj.id ? "Edit" : "Add"} activity`;
 				}
@@ -77,18 +75,20 @@ export default class ToolbarView extends JetView {
 	}
 
 	showWindow(data) {
-		this.getRoot().show();
+		let win = this.getRoot();
+		win.show();
 		if (data.parentView)
-			this.$$("editForm").queryView({label:"Contact"}).disable();
-		this.$$("editForm").setValues(data);
-		this.$$("headMess").setValues(data);
+			win.getBody().queryView({label:"Contact"}).disable();
+		win.getBody().setValues(data);
+		win.getHead().setValues(data);
 		let action = data.id ? "Save" : "Add";
-		this.$$("actionButton").setValue(action);
+		win.getBody().queryView({view: "button", type: "form"}).setValue(action);
 	}
 
 	hideForm(){
-		this.$$("editForm").hide();
-		this.$$("editForm").clear();
-		this.$$("editForm").clearValidation();
+		let win = this.getRoot();
+		win.getBody().hide();
+		win.getBody().clear();
+		win.getBody().clearValidation();
 	}
 }

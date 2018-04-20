@@ -78,7 +78,7 @@ export default class ToolbarView extends JetView {
 
 	showWindow(data) {
 		this.getRoot().show();
-		if (this.getParentView()._index == 3)
+		if (data.parentView)
 			this.$$("editForm").queryView({label:"Contact"}).disable();
 		this.$$("editForm").setValues(data);
 		this.$$("headMess").setValues(data);

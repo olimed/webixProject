@@ -1,6 +1,8 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
 import { statuses } from "models/statuses";
+import { activity } from "models/activities";
+import { files } from "models/files";
 import contactsMultiview from "views/contactsMultiview";
 
 export default class ContactsTemplate extends JetView {
@@ -22,7 +24,7 @@ export default class ContactsTemplate extends JetView {
 					</div>
 					<div id='profile'>
 						<div id='user-photo'>
-							<img src='${obj.Photo}' alt='user-photo' style='width: 200px; height: 300px; border: black;' />
+							${obj.Photo != " " && obj.Photo != "" ? `<img src='${obj.Photo}' style='width: 200px;height: 150px;position: absolute;'>` : "<div class='webix_icon fa-user-circle' style='font-size: 160px;'></div>"}
 						</div>
 						<div id='user-info'>
 							<ul id='info'>
@@ -46,9 +48,10 @@ export default class ContactsTemplate extends JetView {
 					webix.confirm({
 						title: "Information",
 						text: "Delete?",
-						callback: function (result) {
-							
+						callback: (result) => {							
 							if (result == true) {
+								this.deleteActivitiesAndFilesContactById(activity, id);
+								this.deleteActivitiesAndFilesContactById(files, id);
 								app.callEvent("delContact", []);
 								data.remove(id);
 							}
@@ -87,5 +90,12 @@ export default class ContactsTemplate extends JetView {
 			template.setValues(item);
 		}
 		);	
+	}
+
+	deleteActivitiesAndFilesContactById(collection, id){
+		for ( let key in collection.data.pull ){
+			if ( collection.getItem(key).ContactID == id)
+				collection.remove(key);
+		}
 	}
 }

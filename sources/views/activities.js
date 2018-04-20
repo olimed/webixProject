@@ -19,12 +19,7 @@ export default class DataView extends JetView {
 						{ id: "tomorrow", value: "Tomorrow" },
 						{ id: "thisWeek", value: "This week" },
 						{ id: "thisMonth", value: "This month" }
-					],
-					on: {
-						onChange: function () {
-							this.$$("activitiesDatatable").filterByAll();
-						}
-					}
+					]
 				}, {},
 				{
 					rows: [

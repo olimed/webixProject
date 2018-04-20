@@ -8,41 +8,47 @@ export default class ContactsForm extends JetView {
 		var contactsForm = {
 			view: "form",
 			id: "contactsForm",
-			autohieght: true,
 			elementsConfig: {
 				labelWidth: 90
 			},
 			elements: [{
-
 				rows: [
-					{ view: "label", id: "headerForm", height: 50 },
+					{ css: "headerContactsForm", view: "label", id: "headerForm", height: 50 },
 					{
-						margin: 15, cols: [
+						gravity: 10, margin: 15,
+						cols: [
 							{
+								margin: 10,
 								rows: [
-									{ css: "inputsForm", view: "text", label: "Fist name", name: "FirstName" },
-									{ css: "inputsForm", view: "text", label: "Last name", name: "LastName" },
-									{ css: "inputsForm", view: "datepicker", align: "right", label: "Joining date", format: webix.i18n.dateFormatStr, name: "StartDate" },
-									{ css: "inputsForm", view: "richselect", label: "Status", name: "StatusID", options: { body: { data: statuses, template: "#Value#" } } },
-									{ css: "inputsForm", view: "text", label: "Job", name: "Job" },
-									{ css: "inputsForm", view: "text", label: "Company", name: "Company" },
-									{ css: "inputsForm", view: "text", label: "Website", name: "Website" },
-									{ css: "inputsForm", view: "text", label: "Address", name: "Address" },
+									{ view: "text", label: "Fist name", name: "FirstName" },
+									{ view: "text", label: "Last name", name: "LastName" },
+									{ view: "datepicker", align: "right", label: "Joining date", format: webix.i18n.dateFormatStr, name: "StartDate" },
+									{ view: "richselect", label: "Status", name: "StatusID", options: { body: { data: statuses, template: "#Value#" } } },
+									{ view: "text", label: "Job", name: "Job" },
+									{ view: "text", label: "Company", name: "Company" },
+									{ view: "text", label: "Website", name: "Website" },
+									{ view: "text", label: "Address", name: "Address" },
 									{}
 								]
 							},
 							{
+								margin: 10,
 								rows: [
-									{ css: "inputsForm", view: "text", label: "Email", type: "email", name: "Email" },
-									{ css: "inputsForm", view: "text", label: "Skype", name: "Skype" },
-									{ css: "inputsForm", view: "text", label: "Phone", name: "Phone" },
-									{ css: "inputsForm", view: "datepicker", align: "right", label: "Birthday", name: "Birthday" },
+									{ view: "text", label: "Email", type: "email", name: "Email" },
+									{ view: "text", label: "Skype", name: "Skype" },
+									{ view: "text", label: "Phone", name: "Phone" },
+									{ view: "datepicker", align: "right", label: "Birthday", name: "Birthday" },
 									{
 										margin: 15, cols: [
-											{ id: "userPhotoForm", template: "<img src='#src# 'alt='user-photo' width: 60px; height: 180px;>", name: "Photo" },
+											{
+												id: "userPhotoForm", name: "Photo", 
+												template: (obj) => {
+													return `${obj.src ? `<img src='${obj.src}' style='width: 185px;height: 165px;position: absolute;'>` : "<div class='webix_icon fa-user-circle' style='font-size: 170px; '></div>"}`;
+												}
+											},
 											{
 												rows: [
-													{},
+													{ height: 100 },
 													{
 														view: "uploader", value: "Change photo",
 														accept: "image/jpeg, image/png",
@@ -50,7 +56,7 @@ export default class ContactsForm extends JetView {
 														multiple: false,
 														on: {
 															onBeforeFileAdd: (upload) => {
-																let id = this.getParam("id");
+																let id = this.getIdFromUrl();
 																let file = upload.file;
 																let reader = new FileReader();
 																if (file.status == "error")
@@ -77,7 +83,7 @@ export default class ContactsForm extends JetView {
 													{
 														view: "button", label: "Delete photo",
 														click: () => {
-															let id = this.getParam("id");
+															let id = this.getIdFromUrl();
 															this.$$("userPhotoForm").setValues({});
 															if (id) {
 																let item = data.getItem(id);
@@ -135,16 +141,20 @@ export default class ContactsForm extends JetView {
 	init() {
 
 		let id = this.getParam("id");
+		let label = { header: "Add contact", button: "Add" };
 		if (id) {
-			this.$$("saveButton").setValue("Save");
-			this.$$("headerForm").setValue("<h2 style='margin-top: 0px;'>Edit contact</h2>");
+			label.header = "Edit contact"; label.button = "Save";
 			data.waitData.then(() => {
 				let values = data.getItem(id);
 				this.$$("contactsForm").setValues(values);
+				this.$$("userPhotoForm").setValues({ src: values.Photo });
 			});
-		} else {
-			this.$$("saveButton").setValue("Add");
-			this.$$("headerForm").setValue("<h2 style='margin-top: 0px;'>Add contact</h2>");
 		}
+		this.$$("saveButton").setValue(label.button);
+		this.$$("headerForm").setValue(`<h2>${label.header}</h2>`);
+	}
+
+	getIdFromUrl() {
+		return this.getParam("id");
 	}
 }

@@ -117,7 +117,6 @@
 /*contactsForm template*/
 #user-header{
 	display: flex;
-
 }
 
 #user-action {
@@ -181,13 +180,30 @@ button > span{
 	text-align: center;
 }
 
-/*contactsForm*/
-.inputsForm {
-	width: 80px;
-	margin: 10px 0px;
-	
+/* header Contacts Form */
+.headerContactsForm h2{
+	margin-top: 0px;
 }
 
-/*.webix_view webix_control webix_el_text{
-	margin: 5px 0 !important;
-}*/
+/* contacts List*/
+#wrapper{
+	display: flex; 
+	align-items: center;
+}
+
+#avatar{
+	padding-right: 10px; 
+	margin-top: 5px;
+}
+
+.icon-avatar{
+	font-size: 40px; 
+	padding-right: 10px;
+	width: 40px
+}
+
+#img-avatar{
+	width: 40px; 
+	height: 40px; 
+	border-radius: 50%;
+}

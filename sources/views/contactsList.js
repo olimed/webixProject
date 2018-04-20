@@ -3,10 +3,23 @@ import { data } from "models/contacts";
 
 export default class ContactsList extends JetView {
 	config() {
+
 		var contactsList = {
 			view: "list",
 			id: "contactslist",
-			template: "<span class='webix_icon fa-user-circle'></span> #FirstName# #LastName# <div style='padding-left:18px'>#Address#</div>",
+			template: (obj) => {
+				return `
+					<div id='wrapper'>
+						<div id='avatar'>							
+							${obj.Photo != " " && obj.Photo != "" ? `<img id='img-avatar' src='${obj.Photo}' >` : "<span class='webix_icon fa-user-circle icon-avatar'></span>"}
+						</div>
+						<div>
+							${obj.FirstName} ${obj.LastName}
+							<div>${obj.Company}</div>							  	
+						</div>
+					</div>
+				`;
+			},
 			width: 300,
 			scrollX: false,
 			select: true,
@@ -15,7 +28,7 @@ export default class ContactsList extends JetView {
 			},
 			on: {
 				onAfterSelect: (id) => {
-					this.show(`?id=${id}`); 
+					this.show(`?id=${id}`);
 				}
 			}
 		};
@@ -23,29 +36,29 @@ export default class ContactsList extends JetView {
 		var addButton = {
 			view: "button",
 			label: "Add Contact",
-			type: "iconButton", 
+			type: "iconButton",
 			icon: "plus",
 			css: "style_button",
 			click: () => {
-				this.show("contactsForm");				
+				this.show("contactsForm");
 			}
-			
+
 		};
 
-		return {rows: [contactsList,  addButton]};
+		return { rows: [contactsList, addButton] };
 	}
 
 	init() {
-		this.$$("contactslist").sync(data);	
-				
-		this.on (this.app, "delContact", () => {
+		this.$$("contactslist").sync(data);
+
+		this.on(this.app, "delContact", () => {
 			this.$$("contactslist").select(this.$$("contactslist").getFirstId());
 		});
 
-		this.on (this.app, "addContact", () => {
+		this.on(this.app, "addContact", () => {
 			data.waitData.then(() => {
-				this.$$("contactslist").select( this.$$("contactslist").getLastId());
-			});			
+				this.$$("contactslist").select(this.$$("contactslist").getLastId());
+			});
 		});
 	}
 
@@ -57,6 +70,6 @@ export default class ContactsList extends JetView {
 				list.select(id);
 			else
 				list.select(list.getFirstId());
-		});		
+		});
 	}
 }

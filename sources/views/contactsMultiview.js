@@ -77,10 +77,10 @@ export default class ContactsMultiview extends JetView {
 							id: "contactFilesDatatable",
 							scrollX: false,
 							columns: [
-								{ id: "Name", header: "Name", sort: "string", fillspace: true },
-								{ id: "ChangeData", header: "Change data", width: 200, format: webix.i18n.dateFormatStr, sort: "date" },
-								{ id: "Size", header: "Size (kb)", sort: "int", width: 150 },
-								{ id: "Delete", header: "", width: 40, template: "<span class='webix_icon fa-trash'></span>" }
+								{ id: "name", header: "Name", sort: "string", fillspace: true },
+								{ id: "lastModifiedDate", header: "Change data", width: 200, format: webix.i18n.dateFormatStr, sort: "date" },
+								{ id: "size", header: "Size (kb)", sort: "int", width: 150 },
+								{ id: "delete", header: "", width: 40, template: "<span class='webix_icon fa-trash'></span>" }
 							],
 							onClick: {
 								"fa-trash": (e, id) => {
@@ -106,15 +106,17 @@ export default class ContactsMultiview extends JetView {
 									label: "Upload", type: "iconButton", icon: "cloud-upload", css: "style_button",
 									autosend: false,
 									multiple: false,
+									link: "contactFilesDatatable",
 									on: {
 										onBeforeFileAdd: (upload) => {
-											var file = upload.file;
-											var reader = new FileReader();
+											let id = this.getParam("id");
+											let file = upload.file;
+											let reader = new FileReader();
 											if (file.status == "error")
 												webix.message({ type: "error", text: "Error during photo upload" });
 											else {
-
-												this.$$("contactFilesDatatable").add({ Name: file.name, ChangeData: file.lastModifiedDate, Size: file.size });
+												file.ContactID = id;
+												this.$$("contactFilesDatatable").add(file);
 												reader.readAsDataURL(file);
 												webix.message({ text: "Successful!!! Photo uploaded." });
 											}
@@ -137,6 +139,7 @@ export default class ContactsMultiview extends JetView {
 		this.addActivity = this.ui(activitiesMess);
 
 		this.on(this.app, "activityChange", (data) => {
+			data.parentView = true;
 			this.addActivity.showWindow(data);
 		});
 	}
@@ -150,6 +153,7 @@ export default class ContactsMultiview extends JetView {
 					return obj.ContactID == id;
 				});
 			});
+			this.$$("activitiesDatatable").filterByAll();
 		});
 
 		files.waitData.then(() => {

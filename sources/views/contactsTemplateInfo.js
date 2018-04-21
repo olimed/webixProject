@@ -4,6 +4,8 @@ import { statuses } from "models/statuses";
 import { activity } from "models/activities";
 import { files } from "models/files";
 import contactsMultiview from "views/contactsMultiview";
+import removeRelatedActivities from "models/activities";
+import removeRelatedFiles from "models/files";
 
 export default class ContactsTemplate extends JetView {
 	config() {
@@ -11,7 +13,7 @@ export default class ContactsTemplate extends JetView {
 		var contactsTemplate = {
 			view: "template",
 			id: "contactsTemplate",
-			template: (obj) => {
+			template: (obj) => { 
 				return `
 					<div id='user-header'>
 						<div id='title'>
@@ -24,7 +26,7 @@ export default class ContactsTemplate extends JetView {
 					</div>
 					<div id='profile'>
 						<div id='user-photo'>
-							${obj.Photo != " " && obj.Photo != "" ? `<img src='${obj.Photo}' style='width: 200px;height: 150px;position: absolute;'>` : "<div class='webix_icon fa-user-circle' style='font-size: 160px;'></div>"}
+							${obj.Photo ? `<img src='${obj.Photo}' style='width: 200px;height: 150px;position: absolute;'>` : "<div class='webix_icon fa-user-circle' style='font-size: 160px;'></div>"}
 						</div>
 						<div id='user-info'>
 							<ul id='info'>
@@ -50,8 +52,8 @@ export default class ContactsTemplate extends JetView {
 						text: "Delete?",
 						callback: (result) => {							
 							if (result == true) {
-								this.deleteActivitiesAndFilesContactById(activity, id);
-								this.deleteActivitiesAndFilesContactById(files, id);
+								removeRelatedActivities(id);
+								removeRelatedFiles(id);
 								app.callEvent("delContact", []);
 								data.remove(id);
 							}
@@ -90,12 +92,5 @@ export default class ContactsTemplate extends JetView {
 			template.setValues(item);
 		}
 		);	
-	}
-
-	deleteActivitiesAndFilesContactById(collection, id){
-		for ( let key in collection.data.pull ){
-			if ( collection.getItem(key).ContactID == id)
-				collection.remove(key);
-		}
 	}
 }

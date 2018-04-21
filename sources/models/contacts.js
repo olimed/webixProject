@@ -7,12 +7,16 @@ export const data = new webix.DataCollection({
 			obj.value = obj.FirstName + " " + obj.LastName; 
 			let parser = webix.Date.strToDate("%d-%m-%Y");
 			obj.Birthday = parser(obj.Birthday);
-			obj.StartDate = parser(obj.StartDate);
+			obj.StartDate = parser(obj.StartDate);	
+			if (obj.Photo == " ")		
+				obj.Photo = "";
 		},
 		$save: (obj) => {
 			let parser = webix.Date.dateToStr("%d-%m-%Y");
 			obj.Birthday = parser(obj.Birthday);
 			obj.StartDate = parser(obj.StartDate);
+			if (obj.Photo == "")		
+				obj.Photo = " ";
 		}
 	}
 });

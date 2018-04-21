@@ -7,11 +7,11 @@ export default class ContactsList extends JetView {
 		var contactsList = {
 			view: "list",
 			id: "contactslist",
-			template: (obj) => {
+			template: (obj) => { 
 				return `
 					<div id='wrapper'>
 						<div id='avatar'>							
-							${obj.Photo != " " && obj.Photo != "" ? `<img id='img-avatar' src='${obj.Photo}' >` : "<span class='webix_icon fa-user-circle icon-avatar'></span>"}
+							${obj.Photo ? `<img id='img-avatar' src='${obj.Photo}' >` : "<span class='webix_icon fa-user-circle icon-avatar'></span>"}
 						</div>
 						<div>
 							${obj.FirstName} ${obj.LastName}
@@ -30,8 +30,8 @@ export default class ContactsList extends JetView {
 				onAfterSelect: (id) => {
 					this.show(`?id=${id}`);
 				},
-				"data->onIdChange": () => {
-					this.app.show(`top/contacts?id=${data.getLastId()}/contactsTemplateInfo`);
+				"data->onIdChange": (oldId, newId) => {
+					this.app.show(`top/contacts?id=${newId}/contactsTemplateInfo`);
 				}
 			}
 		};
@@ -56,12 +56,6 @@ export default class ContactsList extends JetView {
 
 		this.on(this.app, "delContact", () => {
 			this.$$("contactslist").select(this.$$("contactslist").getFirstId());
-		});
-
-		this.on(this.app, "addContact", () => {
-			data.waitData.then(() => {
-				this.$$("contactslist").select(this.$$("contactslist").getLastId());
-			});
 		});
 	}
 

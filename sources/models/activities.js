@@ -14,3 +14,10 @@ export const activity = new webix.DataCollection({
 		}
 	}
 });
+
+export default function removeRelatedActivities(id){
+	for ( let key in activity.data.pull ){
+		if ( activity.getItem(key).ContactID == id)
+			activity.remove(key);
+	}
+};

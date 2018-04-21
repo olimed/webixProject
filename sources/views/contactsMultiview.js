@@ -109,18 +109,15 @@ export default class ContactsMultiview extends JetView {
 									link: "contactFilesDatatable",
 									on: {
 										onBeforeFileAdd: (upload) => {
-											let id = this.getParam("id");
+											let id = this.getParam("id", true);
 											let file = upload.file;
-											let reader = new FileReader();
 											if (file.status == "error")
-												webix.message({ type: "error", text: "Error during photo upload" });
+												webix.message({ type: "error", text: "Error during file upload" });
 											else {
 												file.ContactID = id;
-												this.$$("contactFilesDatatable").add(file);
-												reader.readAsDataURL(file);
-												webix.message({ text: "Successful!!! Photo uploaded." });
+												files.add(file);
+												webix.message({ text: "Successful!!! File uploaded." });
 											}
-											return false;
 										}
 									}
 								},

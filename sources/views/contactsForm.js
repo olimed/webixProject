@@ -41,7 +41,7 @@ export default class ContactsForm extends JetView {
 									{
 										margin: 15, cols: [
 											{
-												id: "userPhotoForm", name: "Photo", 
+												id: "userPhotoForm", name: "Photo",
 												template: (obj) => {
 													return `${obj.src ? `<img src='${obj.src}' style='width: 185px;height: 165px;position: absolute;'>` : "<div class='webix_icon fa-user-circle' style='font-size: 170px; '></div>"}`;
 												}
@@ -56,7 +56,6 @@ export default class ContactsForm extends JetView {
 														multiple: false,
 														on: {
 															onBeforeFileAdd: (upload) => {
-																let id = this.getIdFromUrl();
 																let file = upload.file;
 																let reader = new FileReader();
 																if (file.status == "error")
@@ -66,11 +65,8 @@ export default class ContactsForm extends JetView {
 
 																	reader.onload = (event) => {
 																		photo.setValues({ src: event.target.result });
-																		if (id) {
-																			let item = data.getItem(id);
-																			item.Photo = event.target.result;
-																			this.$$("contactsForm").setValues(item);
-																		}
+																		this.$$("contactsForm").setValues({Photo: event.target.result}, true);
+																		
 																	};
 																	webix.message({ text: "Successful!!! Photo uploaded." });
 																}
@@ -86,9 +82,7 @@ export default class ContactsForm extends JetView {
 															let id = this.getIdFromUrl();
 															this.$$("userPhotoForm").setValues({});
 															if (id) {
-																let item = data.getItem(id);
-																item.Photo = " ";
-																this.$$("contactsForm").setValues(item);
+																this.$$("contactsForm").setValues({Photo: ""}, true);
 															}
 														}
 													}
@@ -118,7 +112,6 @@ export default class ContactsForm extends JetView {
 											data.updateItem(values.id, values);
 										} else {
 											data.add(values);
-											this.app.callEvent("addContact", []);
 										}
 										this.show("contactsTemplateInfo");
 									}

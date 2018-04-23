@@ -7,9 +7,11 @@ import { files } from "models/files";
 export default class ContactsMultiview extends JetView {
 	config() {
 
+		const _ = this.app.getService("locale")._;
+
 		var cells = [
 			{
-				header: "Activities", body: {
+				header: _("Activities"), body: {
 					rows: [
 						{
 							view: "datatable",
@@ -36,8 +38,10 @@ export default class ContactsMultiview extends JetView {
 							onClick: {
 								"fa-trash": (e, id) => {
 									webix.confirm({
-										title: "Information",
-										text: "Delete?",
+										title: _("Information"),
+										text: _("Delete?"),
+										ok: _("OK"), 
+    									cancel: _("Cancel"),
 										callback: function (result) {
 											if (result == true) {
 												activity.remove(id);
@@ -57,7 +61,7 @@ export default class ContactsMultiview extends JetView {
 							cols: [
 								{}, {},
 								{
-									view: "button", label: "Add activity", type: "iconButton", icon: "plus", css: "style_button",
+									view: "button", label: _("Add activity"), type: "iconButton", icon: "plus", css: "style_button",
 									click: () => {
 										let id = this.getParam("id", true);
 										this.app.callEvent("activityChange", [{ ContactID: id }]);
@@ -69,7 +73,7 @@ export default class ContactsMultiview extends JetView {
 				}
 			},
 			{
-				header: "Files",
+				header: _("Files"),
 				body: {
 					rows: [
 						{
@@ -77,17 +81,19 @@ export default class ContactsMultiview extends JetView {
 							id: "contactFilesDatatable",
 							scrollX: false,
 							columns: [
-								{ id: "name", header: "Name", sort: "string", fillspace: true },
-								{ id: "lastModifiedDate", header: "Change data", width: 200, format: webix.i18n.dateFormatStr, sort: "date" },
-								{ id: "size", header: "Size (kb)", sort: "int", width: 150 },
+								{ id: "name", header: _("Name"), sort: "string", fillspace: true },
+								{ id: "lastModifiedDate", header: _("Change data"), width: 200, format: webix.i18n.dateFormatStr, sort: "date" },
+								{ id: "size", header: _("Size (kb)"), sort: "int", width: 150 },
 								{ id: "delete", header: "", width: 40, template: "<span class='webix_icon fa-trash'></span>" }
 							],
 							onClick: {
 								"fa-trash": (e, id) => {
 									let datatable = this.$$("contactFilesDatatable");
 									webix.confirm({
-										title: "Information",
-										text: "Delete?",
+										title: _("Information"),
+										text: _("Delete?"),
+										ok: _("OK"), 
+    									cancel: _("Cancel"),
 										callback: function (result) {
 											if (result == true) {
 												datatable.remove(id);
@@ -103,7 +109,7 @@ export default class ContactsMultiview extends JetView {
 								{},
 								{
 									view: "uploader",
-									label: "Upload", type: "iconButton", icon: "cloud-upload", css: "style_button",
+									label: _("Upload"), type: "iconButton", icon: "cloud-upload", css: "style_button",
 									autosend: false,
 									multiple: false,
 									link: "contactFilesDatatable",
@@ -112,11 +118,11 @@ export default class ContactsMultiview extends JetView {
 											let id = this.getParam("id", true);
 											let file = upload.file;
 											if (file.status == "error")
-												webix.message({ type: "error", text: "Error during file upload" });
+												webix.message({ type: "error", text: _("Error during file upload") });
 											else {
 												file.ContactID = id;
 												files.add(file);
-												webix.message({ text: "Successful!!! File uploaded." });
+												webix.message({ text: _("Successful!!! File uploaded.") });
 											}
 										}
 									}

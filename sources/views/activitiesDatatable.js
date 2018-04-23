@@ -44,5 +44,67 @@ export default class DatatableView extends JetView {
 
 	init() {
 		this.$$("activitiesDatatable").sync(activity);
+
+		this.on(this.app, "filteringActivities", (segmentedButtons) => {
+			this.$$("activitiesDatatable").filterByAll();
+
+			this.$$("activitiesDatatable").registerFilter(
+				segmentedButtons,
+				{
+					columnId: "DueDate", compare: (value, filter, item) => {
+						//let today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).valueOf();
+						//let month = new Date(now.getMonth).valueOf();
+						switch (filter) {
+							case "overdue":
+								return value.getFullYear() <= 1990;
+								break;
+							/*case "today": 
+								return value = today;
+								break;
+							case "tomorrow": 
+								return value > (today + 86400000);
+								break;
+							case "thisWeek":
+								break;
+							case "thisMonth":
+								return value.getMonth() == month ? value : false;
+								break;*/
+							default: return true;
+						}
+					}
+				},
+				{
+					getValue: function (node) {
+						return node.getValue();
+					},
+					setValue: function (node, value) {
+						node.setValue(value);
+					}
+				}
+			);
+
+			this.$$("activitiesDatatable").registerFilter(
+				segmentedButtons,
+				{
+					columnId: "State", compare: (value, filter, item) => {
+						if (filter == "completed")  
+							return value == "Close";						
+					}
+				},
+				{
+					getValue: function (node) {
+						return node.getValue();
+					},
+					setValue: function (node, value) {
+						node.setValue(value);
+					}
+				}
+			);
+		});
+	}
+
+	ready() {
+
+
 	}
 }

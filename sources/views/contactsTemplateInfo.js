@@ -10,18 +10,22 @@ import removeRelatedFiles from "models/files";
 export default class ContactsTemplate extends JetView {
 	config() {
 
+		const _ = this.app.getService("locale")._;
+
 		var contactsTemplate = {
 			view: "template",
 			id: "contactsTemplate",
 			template: (obj) => { 
+				let del = _("Delete");
+				let edit = _("Edit");
 				return `
 					<div id='user-header'>
 						<div id='title'>
 							<h1 style='padding-left:18px; min-height: 40px;'>${obj.FirstName} ${obj.LastName}</h1>
 						</div>
 						<div id='user-action'>
-							<button class='webixbutton i-trash' ><span class='webix_icon fa-trash'></span>Delete</button>
-							<button class='webixbutton i-edit'><span class='webix_icon fa-edit'></span>Edit</button>
+							<button class='webixbutton i-trash' ><span class='webix_icon fa-trash'></span>${del}</button>
+							<button class='webixbutton i-edit'><span class='webix_icon fa-edit'></span>${edit}</button>
 						</div>
 					</div>
 					<div id='profile'>
@@ -48,8 +52,10 @@ export default class ContactsTemplate extends JetView {
 					let id = this.getParam("id", true);
 					let app = this.app;
 					webix.confirm({
-						title: "Information",
-						text: "Delete?",
+						title: _("Information"),
+						text: _("Delete?"),
+						ok: _("OK"), 
+    					cancel: _("Cancel"),
 						callback: (result) => {							
 							if (result == true) {
 								removeRelatedActivities(id);

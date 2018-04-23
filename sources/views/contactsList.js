@@ -67,7 +67,7 @@ export default class ContactsList extends JetView {
 				list.select(id);
 			else
 				list.select(list.getFirstId());
-			list.scrollTo(0, id);
+			list.showItem(id);
 		});
 	}
 }

@@ -9,7 +9,7 @@ export default class ContactsList extends JetView {
 		var contactsList = {
 			view: "list",
 			id: "contactslist",
-			template: (obj) => { 
+			template: (obj) => {
 				return `
 					<div id='wrapper'>
 						<div id='avatar'>							
@@ -51,19 +51,19 @@ export default class ContactsList extends JetView {
 		};
 
 		var filter = {
-			view:"text", placeholder: "type to find matching contacts", id: "filterList",
-			on:{ 
+			view: "text", placeholder: _("type to find matching contacts"), id: "filterList",
+			on: {
 				onTimedKeypress: () => {
 					var text = this.$$("filterList").getValue().toString().toLowerCase();
-					this.$$("contactslist").filter( (obj) => {
-					  let filter = [obj.FirstName, obj.LastName, obj.StatusID, obj.Company, obj.Address, obj.Job, obj.Website, obj.Skype, obj.Phone, obj.Email, obj.Birthday, obj.StartDate].join("|");
-					  filter = filter.toString().toLowerCase();
-					  return (filter.indexOf(text) != -1);
+					this.$$("contactslist").filter((obj) => {
+						let filter = [obj.FirstName, obj.LastName, obj.StatusID, obj.Company, obj.Address, obj.Job, obj.Website, obj.Skype, obj.Phone, obj.Email, obj.Birthday, obj.StartDate].join("|");
+						filter = filter.toString().toLowerCase();
+						return (filter.indexOf(text) != -1);
 					});
 
 				}
 			}
-		  };
+		};
 
 		return { rows: [filter, contactsList, addButton] };
 	}

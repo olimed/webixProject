@@ -209,12 +209,6 @@ button > span{
 }
 
 /*settings*/
-.settingsHeader {
-	font-size: 30px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.webix_view webix_control webix_el_label settingsHeader{
-	margin-bottom: 15px;
+.webix_template{
+	font-size:  medium;
 }

@@ -81,7 +81,7 @@ export default class ToolbarView extends JetView {
 		let win = this.getRoot();
 		win.show();
 		if (data.parentView)
-			win.getBody().queryView({label:"Contact"}).disable();
+			win.getBody().queryView({label: _("Contact")}).disable();
 		win.getBody().setValues(data);
 		win.getHead().setValues(data);
 		let action = data.id ? _("Save") : _("Add");

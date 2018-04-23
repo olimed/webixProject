@@ -40,8 +40,8 @@ export default class ContactsMultiview extends JetView {
 									webix.confirm({
 										title: _("Information"),
 										text: _("Delete?"),
-										ok: _("OK"), 
-    									cancel: _("Cancel"),
+										ok: _("OK"),
+										cancel: _("Cancel"),
 										callback: function (result) {
 											if (result == true) {
 												activity.remove(id);
@@ -92,8 +92,8 @@ export default class ContactsMultiview extends JetView {
 									webix.confirm({
 										title: _("Information"),
 										text: _("Delete?"),
-										ok: _("OK"), 
-    									cancel: _("Cancel"),
+										ok: _("OK"),
+										cancel: _("Cancel"),
 										callback: function (result) {
 											if (result == true) {
 												datatable.remove(id);
@@ -117,9 +117,9 @@ export default class ContactsMultiview extends JetView {
 										onBeforeFileAdd: (upload) => {
 											let id = this.getParam("id", true);
 											let file = upload.file;
-												file.ContactID = id;
-												files.add(file);
-												webix.message({ text: _("Successful!!! File uploaded.") });
+											file.ContactID = id;
+											files.add(file);
+											webix.message({ text: _("Successful!!! File uploaded.") });
 										}
 									}
 								},

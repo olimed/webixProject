@@ -53,7 +53,7 @@ export default class ContactsTemplate extends JetView {
 						title: _("Information"),
 						text: _("Delete?"),
 						ok: _("OK"), 
-    					cancel: _("Cancel"),
+						cancel: _("Cancel"),
 						callback: (result) => {							
 							if (result == true) {
 								removeRelatedActivities(id);

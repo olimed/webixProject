@@ -26,6 +26,7 @@ export default {
 	"Birthday": "Дата рождения",
 	"Change photo": "Изменить фото",
 	"Delete photo": "Удалить фото",
+	"type to find matching contacts": "найти контакт",
 	
 	"Add contact": "Добавить контакт",	
 	"Edit contact": "Редактировать контакт",	
@@ -50,14 +51,12 @@ export default {
 	
 	"All": "Все",
 	"Overdue": "Просроченные",
-	"Completed": "Выполненные",
 	"Today": "Сегодня",
 	"Tomorrow":"Завтра",
 	"This week": "На этой неделе",
 	"This month": "В этом месяце",
 	"Activity type": "Тип мероприятия",
 	"Due date": "Дата",
-	"Contact": "Контакт",
 
 	"Language" : "Язык",
 	"Russian": "Русский",

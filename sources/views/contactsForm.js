@@ -60,20 +60,19 @@ export default class ContactsForm extends JetView {
 															onBeforeFileAdd: (upload) => {
 																let file = upload.file;
 																let reader = new FileReader();
-																	let photo = this.$$("userPhotoForm");
+																let photo = this.$$("userPhotoForm");
 
-																	reader.onload = (event) => {
-																		photo.setValues({ src: event.target.result });
-																		this.$$("contactsForm").setValues({Photo: event.target.result}, true);
-																		
-																	};
-																	webix.message({ text: _("Successful!!! Photo uploaded.") });
-																}
+																reader.onload = (event) => {
+																	photo.setValues({ src: event.target.result });
+																	this.$$("contactsForm").setValues({ Photo: event.target.result }, true);
+																};
+																webix.message({ text: _("Successful!!! Photo uploaded.") });
 
 																reader.readAsDataURL(file);
 																return false;
 															}
 														}
+
 													},
 													{
 														view: "button", label: _("Delete photo"),

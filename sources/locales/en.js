@@ -26,6 +26,7 @@ export default {
 	"Birthday": "Birthday",
 	"Change photo": "Change photo",
 	"Delete photo": "Delete photo",
+	"type to find matching contacts": "type to find matching contacts",
 	
 	"Add contact": "Add contact",	
 	"Edit contact": "Edit contact",	
@@ -50,15 +51,13 @@ export default {
 	
 	"All": "All",
 	"Overdue": "Overdue",
-	"Completed": "Completed",
 	"Today": "Today",
 	"Tomorrow":"Tomorrow",
 	"This week": "This week",
 	"This month": "This month",
 	"Activity type": "Activity type",
 	"Due date": "Due date",
-	"Contact": "Contact",	
-	
+		
 	"Language" : "Language",
 	"Russian":"Russian",
 	"English": "English",

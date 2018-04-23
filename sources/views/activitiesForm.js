@@ -6,20 +6,22 @@ import { data } from "models/contacts";
 export default class ToolbarView extends JetView {
 	config() {
 
+		const _ = this.app.getService("locale")._;
+
 		var editForm = {
 			view: "form",
 			elements: [{
 				rows: [
-					{ view: "textarea", name: "Details", height: 200, label: "Details", labelAlign: "right" },
-					{ view: "richselect", label: "Type", name: "TypeID", options: { data: activityTypes }, invalidMessage: "Please, choose type" },
-					{ view: "richselect", label: "Contact", name: "ContactID", options: { data: data }, invalidMessage: "Please, choose contact" },
+					{ view: "textarea", name: "Details", height: 200, label: _("Details"), labelAlign: "right" },
+					{ view: "richselect", label: _("Type"), name: "TypeID", options: { data: activityTypes }, invalidMessage: "Please, choose type" },
+					{ view: "richselect", label: _("Contact"), name: "ContactID", options: { data: data }, invalidMessage: "Please, choose contact" },
 					{
 						cols: [
-							{ view: "datepicker", align: "right", label: "Date", name: "DueDate" },
-							{ view: "datepicker", align: "right", label: "Time", type: "time", name: "formTime" }
+							{ view: "datepicker", align: "right", label: _("Date"), name: "DueDate" },
+							{ view: "datepicker", align: "right", label: _("Time"), type: "time", name: "formTime" }
 						]
 					},
-					{ view: "checkbox", label: "Completed", name: "State", uncheckValue: "Open", checkValue: "Close", labelWidth: 90 },
+					{ view: "checkbox", label: _("Completed"), name: "State", uncheckValue: "Open", checkValue: "Close", labelWidth: 90 },
 					{
 						cols: [
 							{},
@@ -39,7 +41,7 @@ export default class ToolbarView extends JetView {
 								}
 							},
 							{
-								view: "button", label: "Cancel",
+								view: "button", label: _("Cancel"),
 								click: () => {
 									this.hideForm();
 								},
@@ -65,7 +67,7 @@ export default class ToolbarView extends JetView {
 			move: true,
 			head: {
 				template: (obj) => {
-					return `${obj.id ? "Edit" : "Add"} activity`;
+					return `${obj.id ? _("Edit activity") : _("Add activity")}`;
 				}
 			},
 			body: editForm
@@ -75,13 +77,14 @@ export default class ToolbarView extends JetView {
 	}
 
 	showWindow(data) {
+		const _ = this.app.getService("locale")._;
 		let win = this.getRoot();
 		win.show();
 		if (data.parentView)
-			win.getBody().queryView({label:"Contact"}).disable();
+			win.getBody().queryView({label: _("Contact")}).disable();
 		win.getBody().setValues(data);
 		win.getHead().setValues(data);
-		let action = data.id ? "Save" : "Add";
+		let action = data.id ? _("Save") : _("Add");
 		win.getBody().queryView({view: "button", type: "form"}).setValue(action);
 	}
 

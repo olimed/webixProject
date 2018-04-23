@@ -207,3 +207,8 @@ button > span{
 	height: 40px; 
 	border-radius: 50%;
 }
+
+/*settings*/
+.webix_template{
+	font-size:  medium;
+}

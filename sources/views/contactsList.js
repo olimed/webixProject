@@ -4,10 +4,12 @@ import { data } from "models/contacts";
 export default class ContactsList extends JetView {
 	config() {
 
+		const _ = this.app.getService("locale")._;
+
 		var contactsList = {
 			view: "list",
 			id: "contactslist",
-			template: (obj) => { 
+			template: (obj) => {
 				return `
 					<div id='wrapper'>
 						<div id='avatar'>							
@@ -38,7 +40,7 @@ export default class ContactsList extends JetView {
 
 		var addButton = {
 			view: "button",
-			label: "Add Contact",
+			label: _("Add contact"),
 			type: "iconButton",
 			icon: "plus",
 			css: "style_button",
@@ -48,7 +50,22 @@ export default class ContactsList extends JetView {
 
 		};
 
-		return { rows: [contactsList, addButton] };
+		var filter = {
+			view: "text", placeholder: _("type to find matching contacts"), id: "filterList",
+			on: {
+				onTimedKeypress: () => {
+					var text = this.$$("filterList").getValue().toString().toLowerCase();
+					this.$$("contactslist").filter((obj) => {
+						for (let prop in obj) {
+							if (prop !== "id" && prop !== "StatusID" && prop !== "Photo" && obj[prop].toString().toLowerCase().indexOf(text) !== -1)
+								return true;
+						}
+					});
+				}
+			}
+		};
+
+		return { rows: [filter, contactsList, addButton] };
 	}
 
 	init() {

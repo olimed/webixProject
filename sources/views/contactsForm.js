@@ -5,6 +5,8 @@ import { statuses } from "models/statuses";
 export default class ContactsForm extends JetView {
 	config() {
 
+		const _ = this.app.getService("locale")._;
+
 		var contactsForm = {
 			view: "form",
 			id: "contactsForm",
@@ -20,24 +22,24 @@ export default class ContactsForm extends JetView {
 							{
 								margin: 10,
 								rows: [
-									{ view: "text", label: "Fist name", name: "FirstName" },
-									{ view: "text", label: "Last name", name: "LastName" },
-									{ view: "datepicker", align: "right", label: "Joining date", format: webix.i18n.dateFormatStr, name: "StartDate" },
-									{ view: "richselect", label: "Status", name: "StatusID", options: { body: { data: statuses, template: "#Value#" } } },
-									{ view: "text", label: "Job", name: "Job" },
-									{ view: "text", label: "Company", name: "Company" },
-									{ view: "text", label: "Website", name: "Website" },
-									{ view: "text", label: "Address", name: "Address" },
+									{ view: "text", label: _("Fist name"), name: "FirstName" },
+									{ view: "text", label: _("Last name"), name: "LastName" },
+									{ view: "datepicker", align: "right", label: _("Joining date"), format: webix.i18n.dateFormatStr, name: "StartDate" },
+									{ view: "richselect", label: _("Status"), name: "StatusID", options: { body: { data: statuses, template: "#Value#" } } },
+									{ view: "text", label: _("Job"), name: "Job" },
+									{ view: "text", label: _("Company"), name: "Company" },
+									{ view: "text", label: _("Website"), name: "Website" },
+									{ view: "text", label: _("Address"), name: "Address" },
 									{}
 								]
 							},
 							{
 								margin: 10,
 								rows: [
-									{ view: "text", label: "Email", type: "email", name: "Email" },
-									{ view: "text", label: "Skype", name: "Skype" },
-									{ view: "text", label: "Phone", name: "Phone" },
-									{ view: "datepicker", align: "right", label: "Birthday", name: "Birthday" },
+									{ view: "text", label: _("Email"), type: "email", name: "Email" },
+									{ view: "text", label: _("Skype"), name: "Skype" },
+									{ view: "text", label: _("Phone"), name: "Phone" },
+									{ view: "datepicker", align: "right", label: _("Birthday"), name: "Birthday" },
 									{
 										margin: 15, cols: [
 											{
@@ -50,7 +52,7 @@ export default class ContactsForm extends JetView {
 												rows: [
 													{ height: 100 },
 													{
-														view: "uploader", value: "Change photo",
+														view: "uploader", value: _("Change photo"),
 														accept: "image/jpeg, image/png",
 														autosend: false,
 														multiple: false,
@@ -64,15 +66,16 @@ export default class ContactsForm extends JetView {
 																	photo.setValues({ src: event.target.result });
 																	this.$$("contactsForm").setValues({ Photo: event.target.result }, true);
 																};
-																webix.message({ text: "Successful!!! Photo uploaded." });
+																webix.message({ text: _("Successful!!! Photo uploaded.") });
 
 																reader.readAsDataURL(file);
 																return false;
 															}
 														}
+
 													},
 													{
-														view: "button", label: "Delete photo",
+														view: "button", label: _("Delete photo"),
 														click: () => {
 															let id = this.getIdFromUrl();
 															this.$$("userPhotoForm").setValues({});
@@ -93,7 +96,7 @@ export default class ContactsForm extends JetView {
 						cols: [
 							{},
 							{
-								view: "button", label: "Cancel",
+								view: "button", label: _("Cancel"),
 								click: () => {
 									this.show("contactsTemplateInfo");
 								}
@@ -127,11 +130,11 @@ export default class ContactsForm extends JetView {
 	}
 
 	init() {
-
+		const _ = this.app.getService("locale")._;
 		let id = this.getParam("id");
-		let label = { header: "Add contact", button: "Add" };
+		let label = { header: _("Add contact"), button: _("Add") };
 		if (id) {
-			label.header = "Edit contact"; label.button = "Save";
+			label.header = _("Edit contact"); label.button = _("Save");
 			data.waitData.then(() => {
 				let values = data.getItem(id);
 				this.$$("contactsForm").setValues(values);

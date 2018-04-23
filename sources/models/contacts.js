@@ -3,7 +3,7 @@ export const data = new webix.DataCollection({
 	save: "rest->http://localhost:8096/api/v1/contacts/",
 
 	scheme: {
-		$init: (obj) => {
+		$change: (obj) => {
 			obj.value = obj.FirstName + " " + obj.LastName; 
 			let parser = webix.Date.strToDate("%d-%m-%Y");
 			obj.Birthday = parser(obj.Birthday);

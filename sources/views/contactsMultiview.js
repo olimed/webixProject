@@ -111,13 +111,9 @@ export default class ContactsMultiview extends JetView {
 										onBeforeFileAdd: (upload) => {
 											let id = this.getParam("id", true);
 											let file = upload.file;
-											if (file.status == "error")
-												webix.message({ type: "error", text: "Error during file upload" });
-											else {
-												file.ContactID = id;
-												files.add(file);
-												webix.message({ text: "Successful!!! File uploaded." });
-											}
+											file.ContactID = id;
+											files.add(file);
+											webix.message({ text: "Successful!!! File uploaded." });
 										}
 									}
 								},

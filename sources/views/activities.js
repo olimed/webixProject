@@ -29,36 +29,8 @@ export default class DataView extends JetView {
 							this.$$("activitiesDatatable").filterByAll();
 
 							this.$$("activitiesDatatable").filter((obj) => {
-								let value = obj.DueDate;
 								let filter = this.$$("activitiesToolbar").getValue();
-								let now = new Date();
-								let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-								let tomorrow = new Date(today.valueOf() + 86400000);
-								let day = today.getDay();
-								let monday = today.getDate() - day + ( day == 0 ? -6 : 1);
-								let mondayThisWeek = new Date(today.setDate(monday));
-								let sundayThisWeek = new Date(today.setDate(monday + 6));
-								switch (filter) {
-									case "overdue":
-										return today - value > 0 && obj.State == "Open";
-										break;
-									case "completed":
-										return obj.State == "Close";
-										break;
-									case "today": 
-										return today - value <= 0 && today - value >= -86400000;
-										break;
-									case "tomorrow": 
-										return tomorrow - value <= 0 && tomorrow - value >= -86400000;
-										break;
-									case "thisWeek":
-										return value >= mondayThisWeek && value <= sundayThisWeek;
-										break;
-									case "thisMonth":
-										return value.getMonth() == today.getMonth();
-										break;
-									default: return true;
-								}
+								return filtering(obj, filter);								
 							}, "", true);
 						}
 					}				
@@ -90,6 +62,15 @@ export default class DataView extends JetView {
 				{ id: "edit", header: "", width: 40, template: "<span class='webix_icon fa-edit'></span>" },
 				{ id: "delete", header: "", width: 40, template: "<span class='webix_icon fa-trash'></span>" }
 			],
+			on: {
+				onAfterFilter: () => {
+					this.$$("activitiesDatatable").filter((obj) => {
+						let filter = this.$$("activitiesToolbar").getValue();
+						return filtering(obj, filter);
+							
+					}, "", true);
+				}
+			},
 			onClick: {
 				"fa-trash": (e, id) => {
 					webix.confirm({
@@ -113,6 +94,27 @@ export default class DataView extends JetView {
 		};
 
 		return { rows: [activitiesToolbar, activitiesDatatable] };
+
+		function filtering(obj, filter){
+			let value = obj.DueDate;
+			let now = new Date();
+
+			switch (filter) {
+				case "overdue":
+					return now - value > 0 && obj.State == "Open";
+				case "completed":
+					return obj.State == "Close";
+				case "today": 
+					return webix.Date.equal( webix.Date.dayStart( value, true), webix.Date.dayStart( now, true));
+				case "tomorrow": 
+					return webix.Date.equal( webix.Date.dayStart( value, true), webix.Date.add( webix.Date.dayStart( now, true), 1, "day", true));
+				case "thisWeek":
+					return webix.Date.equal( webix.Date.weekStart(value), webix.Date.weekStart(now));
+				case "thisMonth":
+					return webix.Date.equal( webix.Date.monthStart(value), webix.Date.monthStart(now));
+				default: return true;
+			}
+		}
 	}
 
 	init() {

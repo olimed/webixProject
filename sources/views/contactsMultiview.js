@@ -26,7 +26,6 @@ export default class ContactsMultiview extends JetView {
 								{ id: "edit", header: "", width: 40, template: "<span class='webix_icon fa-edit'></span>" },
 								{ id: "delete", header: "", width: 40, template: "<span class='webix_icon fa-trash'></span>" }
 							],
-
 							on: {
 								onAfterFilter: () => {
 									let id = this.getParam("id", true);

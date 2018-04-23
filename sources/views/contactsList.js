@@ -56,11 +56,11 @@ export default class ContactsList extends JetView {
 				onTimedKeypress: () => {
 					var text = this.$$("filterList").getValue().toString().toLowerCase();
 					this.$$("contactslist").filter((obj) => {
-						let filter = [obj.FirstName, obj.LastName, obj.StatusID, obj.Company, obj.Address, obj.Job, obj.Website, obj.Skype, obj.Phone, obj.Email, obj.Birthday, obj.StartDate].join("|");
-						filter = filter.toString().toLowerCase();
-						return (filter.indexOf(text) != -1);
+						for (let prop in obj) {
+							if (prop !== "id" && prop !== "StatusID" && prop !== "Photo" && obj[prop].toString().toLowerCase().indexOf(text) !== -1)
+								return true;
+						}
 					});
-
 				}
 			}
 		};

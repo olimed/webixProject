@@ -31,7 +31,16 @@ export default class SettingView extends JetView {
 			template: _("Activity types table")
 		};
 
-		return { rows: [langHeader, localeSelector, statusesHeader, settingsStatusesTable, activitytypesHeader, settingsActivityTypesTable] };
+		return {
+			rows: [
+				langHeader,
+				localeSelector,
+				statusesHeader,
+				settingsStatusesTable,
+				activitytypesHeader,
+				settingsActivityTypesTable
+			]
+		};
 	}
 
 	toggleLanguage() {

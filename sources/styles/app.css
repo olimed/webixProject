@@ -117,7 +117,6 @@
 /*contactsForm template*/
 #user-header{
 	display: flex;
-
 }
 
 #user-action {
@@ -174,4 +173,37 @@ button > span{
 
 #user-action button{
 	margin-right: 10px;
+}
+
+/*button */
+.style_button.webix_el_button button{
+	text-align: center;
+}
+
+/* header Contacts Form */
+.headerContactsForm h2{
+	margin-top: 0px;
+}
+
+/* contacts List*/
+#wrapper{
+	display: flex; 
+	align-items: center;
+}
+
+#avatar{
+	padding-right: 10px; 
+	margin-top: 5px;
+}
+
+.icon-avatar{
+	font-size: 40px; 
+	padding-right: 10px;
+	width: 40px
+}
+
+#img-avatar{
+	width: 40px; 
+	height: 40px; 
+	border-radius: 50%;
 }

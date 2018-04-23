@@ -3,10 +3,23 @@ import { data } from "models/contacts";
 
 export default class ContactsList extends JetView {
 	config() {
+
 		var contactsList = {
 			view: "list",
 			id: "contactslist",
-			template: "<span class='webix_icon fa-user-circle'></span> #FirstName# #LastName# <div style='padding-left:18px'>#Address#</div>",
+			template: (obj) => { 
+				return `
+					<div id='wrapper'>
+						<div id='avatar'>							
+							${obj.Photo ? `<img id='img-avatar' src='${obj.Photo}' >` : "<span class='webix_icon fa-user-circle icon-avatar'></span>"}
+						</div>
+						<div>
+							${obj.FirstName} ${obj.LastName}
+							<div>${obj.Company}</div>							  	
+						</div>
+					</div>
+				`;
+			},
 			width: 300,
 			scrollX: false,
 			select: true,
@@ -15,16 +28,35 @@ export default class ContactsList extends JetView {
 			},
 			on: {
 				onAfterSelect: (id) => {
-					this.show(`../contacts?id=${id}`);
+					this.show(`?id=${id}`);
+				},
+				"data->onIdChange": (oldId, newId) => {
+					this.app.show(`top/contacts?id=${newId}/contactsTemplateInfo`);
 				}
 			}
 		};
 
-		return contactsList;
+		var addButton = {
+			view: "button",
+			label: "Add Contact",
+			type: "iconButton",
+			icon: "plus",
+			css: "style_button",
+			click: () => {
+				this.show("contactsForm");
+			}
+
+		};
+
+		return { rows: [contactsList, addButton] };
 	}
 
 	init() {
 		this.$$("contactslist").sync(data);
+
+		this.on(this.app, "delContact", () => {
+			this.$$("contactslist").select(this.$$("contactslist").getFirstId());
+		});
 	}
 
 	urlChange() {
@@ -35,6 +67,7 @@ export default class ContactsList extends JetView {
 				list.select(id);
 			else
 				list.select(list.getFirstId());
+			list.showItem(id);
 		});
 	}
 }

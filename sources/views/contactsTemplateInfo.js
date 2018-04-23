@@ -1,8 +1,6 @@
 import { JetView } from "webix-jet";
 import { data } from "models/contacts";
 import { statuses } from "models/statuses";
-import { activity } from "models/activities";
-import { files } from "models/files";
 import contactsMultiview from "views/contactsMultiview";
 import removeRelatedActivities from "models/activities";
 import removeRelatedFiles from "models/files";

@@ -15,9 +15,9 @@ export const activity = new webix.DataCollection({
 	}
 });
 
-export default function removeRelatedActivities(id){
-	for ( let key in activity.data.pull ){
-		if ( activity.getItem(key).ContactID == id)
-			activity.remove(key);
-	}
-};
+export default function removeRelatedActivities(id) {
+	activity.data.each((obj) => {
+		if (obj.ContactID == id)
+			activity.remove(obj.id);
+	});
+}

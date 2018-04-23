@@ -60,9 +60,6 @@ export default class ContactsForm extends JetView {
 															onBeforeFileAdd: (upload) => {
 																let file = upload.file;
 																let reader = new FileReader();
-																if (file.status == "error")
-																	webix.message({ type: "error", text: _("Error during photo upload") });
-																else {
 																	let photo = this.$$("userPhotoForm");
 
 																	reader.onload = (event) => {
@@ -84,7 +81,7 @@ export default class ContactsForm extends JetView {
 															let id = this.getIdFromUrl();
 															this.$$("userPhotoForm").setValues({});
 															if (id) {
-																this.$$("contactsForm").setValues({Photo: ""}, true);
+																this.$$("contactsForm").setValues({ Photo: "" }, true);
 															}
 														}
 													}

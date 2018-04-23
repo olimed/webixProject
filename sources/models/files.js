@@ -9,9 +9,9 @@ export const files = new webix.DataCollection({
 	]
 });
 
-export default function removeRelatedFiles(id){
-	for ( let key in files.data.pull ){
-		if ( files.getItem(key).ContactID == id)
-			files.remove(key);
-	}
-};
+export default function removeRelatedFiles(id) {
+	files.data.each((obj) => {
+		if (obj.ContactID == id)
+			files.remove(obj.id);
+	});
+}
